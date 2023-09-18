@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Where2Meet-2.0</string>
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+    <!-- Paste BOTH strings as required -->
+    <string name="back4app_app_id">Elh01pKRTNoA56AbZb4gWoAq5R1E1GPFosXn1pOX</string>
+    <string name="back4app_client_key">chm3CDaKMhkYLBCTidrwacH2LURaMA4iTKwwZSk1</string>
+</resources>
