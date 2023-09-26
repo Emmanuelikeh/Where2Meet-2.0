@@ -2,22 +2,37 @@ package com.example.where2meet_20
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.parse.ParseObject
+import androidx.fragment.app.Fragment
+import com.example.where2meet_20.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var activityMainActivity: ActivityMainBinding
+    val fragmentManger = supportFragmentManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val firstObject = ParseObject("FirstClass")
-        firstObject.put("message","Hey ! First message from android. Parse is now connected")
-        firstObject.saveInBackground{
-            if (it != null){
-                it.localizedMessage?.let { message -> Log.e("MainActivity", message) }
+        activityMainActivity = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(activityMainActivity.root)
+
+        fragmentManger.beginTransaction().replace(R.id.flContainer,HomeFragment()).commit()
+        activityMainActivity.bottomNavigation.setOnItemReselectedListener {  item ->
+            var fragmentToShow: Fragment? = null
+            when(item.itemId){
+                R.id.action_home -> {
+                    fragmentToShow = HomeFragment()
+                }
+                R.id.action_profile -> {
+                    fragmentToShow = ProfileFragment()
+                }
+                R.id.action_search -> {
+                    fragmentToShow = SearchFragment()
+
+                }
             }
-            else{
-                Log.d("MainActivity","Object saved.")
+            if (fragmentToShow != null) {
+                fragmentManger.beginTransaction().replace(R.id.flContainer,fragmentToShow).commit()
             }
+            true
         }
+
     }
 }

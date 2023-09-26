@@ -7,6 +7,10 @@ android {
     namespace = "com.example.where2meet_20"
     compileSdk = 33
 
+    buildFeatures{
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.where2meet_20"
         minSdk = 24
@@ -24,6 +28,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
         }
     }
     compileOptions {
