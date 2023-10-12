@@ -18,6 +18,10 @@ class LoginActivity : AppCompatActivity() {
         val view = activityLoginBinding.root
         setContentView(view)
 
+        if(ParseUser.getCurrentUser() != null){
+            goMainActivity()
+        }
+
         activityLoginBinding.btnLogin.setOnClickListener{
             val username = activityLoginBinding.etUserName.text.toString()
             val password = activityLoginBinding.etUserPassword.text.toString()

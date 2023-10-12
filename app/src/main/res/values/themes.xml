@@ -4,6 +4,10 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+    
+    <style name="circle">
 
+    </style>
+    <item name="cornerSize" type="dimen">50%</item>
     <style name="Theme.Where2Meet20" parent="Base.Theme.Where2Meet20" />
 </resources>
