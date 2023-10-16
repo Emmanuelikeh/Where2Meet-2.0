@@ -8,6 +8,7 @@ import com.example.where2meet_20.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var activityMainActivity: ActivityMainBinding
     val fragmentManger = supportFragmentManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainActivity = ActivityMainBinding.inflate(layoutInflater)
