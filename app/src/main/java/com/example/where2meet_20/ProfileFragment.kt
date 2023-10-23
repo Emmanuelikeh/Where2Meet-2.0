@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import coil.load
 import com.example.where2meet_20.databinding.FragmentProfileBinding
+import com.parse.ParseQuery
 import com.parse.ParseUser
 
 
@@ -43,6 +44,35 @@ class ProfileFragment : Fragment() {
             placeholder(R.drawable.image_app)
         }
 
+        // get the following count
+        val followingCount = currentUser.getInt("followingCount")
+        fragmentProfileBinding.tvFollowingCount.text = followingCount.toString()
+        // get the follower count
+        val followerCount = currentUser.getInt("followerCount")
+        getFollowersCount(currentUser)
+        getFollowingCount(currentUser)
+    }
+
+    // get the following count
+    private fun getFollowingCount(parseUser: ParseUser){
+        val query = ParseQuery.getQuery(Followers::class.java)
+        query.whereEqualTo("Follower", parseUser)
+        query.countInBackground { count, e ->
+            if (e == null){
+                fragmentProfileBinding.tvFollowingCount.text = count.toString()
+            }
+        }
+
+    }
+    // get the follower count
+    private fun getFollowersCount(parseUser: ParseUser){
+        val query = ParseQuery.getQuery(Followers::class.java)
+        query.whereEqualTo("Following", parseUser)
+        query.findInBackground() { count, e ->
+            if (e == null){
+                fragmentProfileBinding.tvFollowerCount.text = count.size.toString()
+            }
+        }
     }
 
 
