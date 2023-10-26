@@ -41,7 +41,7 @@ class SearchFragment : Fragment() {
             override fun onQueryTextChange(s: String?): Boolean {
                 val currentUser = ParseUser.getCurrentUser().username
                 val query = ParseUser.getQuery()
-//               query.whereNotEqualTo("username", currentUser)
+              query.whereNotEqualTo("username", currentUser)
                 query.whereStartsWith("username",s)
                 query.findInBackground(FindCallback { objects, e ->
                     adapter.clear()

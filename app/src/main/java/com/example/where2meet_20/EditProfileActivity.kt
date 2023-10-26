@@ -31,6 +31,7 @@ class EditProfileActivity : AppCompatActivity() {
             currentUser.saveInBackground { SaveCallback { e ->
                 if (e != null){
                     Toast.makeText(this,e.message.toString(),Toast.LENGTH_SHORT).show()
+
                 }
                 else{
                     finish()
