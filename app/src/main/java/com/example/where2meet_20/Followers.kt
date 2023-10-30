@@ -61,5 +61,4 @@ class Followers: ParseObject() {
         tvFollowerCount.text = count.toString()
     }
 
-
 }

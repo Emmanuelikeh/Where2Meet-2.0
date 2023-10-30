@@ -2,6 +2,7 @@ package com.example.where2meet_20
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import coil.load
 import com.example.where2meet_20.databinding.ActivityEditProfileBinding
@@ -33,11 +34,10 @@ class EditProfileActivity : AppCompatActivity() {
                     Toast.makeText(this,e.message.toString(),Toast.LENGTH_SHORT).show()
 
                 }
-                else{
-                    finish()
-                }
             } }
+            finish()
 
         }
     }
+
 }
