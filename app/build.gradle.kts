@@ -41,7 +41,6 @@ android {
 }
 
 dependencies {
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
@@ -53,4 +52,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.github.parse-community.Parse-SDK-Android:parse:4.2.1")
     implementation("io.coil-kt:coil:2.4.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation ("com.codepath.libraries:asynchttpclient:2.2.0")
+
 }

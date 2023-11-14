@@ -54,5 +54,18 @@ class PlaceSearch {
         return "$distance meters"
     }
 
+    companion object {
+        fun fromJsonArray(results: JSONArray?): Collection<PlaceSearch> {
+            val placeSearchList = ArrayList<PlaceSearch>()
+            for(i in 0 until (results?.length() ?:0 )){
+                val placeSearch = results?.getJSONObject(i)?.let { PlaceSearch(it) }
+                if (placeSearch != null) {
+                    placeSearchList.add(placeSearch)
+                }
+            }
+            return placeSearchList
+        }
+    }
+
 
 }
