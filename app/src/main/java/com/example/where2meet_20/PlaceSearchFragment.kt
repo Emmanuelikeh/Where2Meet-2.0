@@ -1,11 +1,12 @@
 package com.example.where2meet_20
 
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codepath.asynchttpclient.AsyncHttpClient
@@ -49,13 +50,18 @@ class PlaceSearchFragment(searchFragment: SearchFragment) : Fragment() {
         val API_KEY = getString(R.string.foursquare_api_key)
         // building the url
         var my_url = "https://api.foursquare.com/v3/places/search"
+        var location = getUserLocation()
 
         // building the request
         val client = AsyncHttpClient()
         val headers = RequestHeaders()
         val params = RequestParams()
-        params.put("query",s)
-        headers.put("Authorization",API_KEY)
+        params["query"] = s
+//        if (location != null) {
+//            Log.i(tag, "queryPlace: ${getLatitudeAndLongitude(location)}")
+//            params["ll"] = getLatitudeAndLongitude(location)
+//        }
+        headers["Authorization"] = API_KEY
         client.get(my_url,headers,params, object: JsonHttpResponseHandler(){
             override fun onFailure(
                 statusCode: Int,
@@ -80,7 +86,21 @@ class PlaceSearchFragment(searchFragment: SearchFragment) : Fragment() {
 
         }
 
-
+    private fun getLatitudeAndLongitude(location: Location): String? {
+        val longitude = location.longitude.toString()
+        val latitude = location.latitude.toString()
+        return "$latitude,$longitude"
     }
+
+    fun getUserLocation(): Location? {
+        val activity = activity as MainActivity?
+        return activity!!.usersLocation
+    }
+
+
+
+}
+
+
 
 
