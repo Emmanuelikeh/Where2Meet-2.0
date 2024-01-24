@@ -1,13 +1,19 @@
 package com.example.where2meet_20
 
-import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.where2meet_20.databinding.FragmentSearchBinding
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okio.IOException
+import org.json.JSONObject
 
 
 class SearchFragment : Fragment(){
@@ -47,6 +53,5 @@ class SearchFragment : Fragment(){
         fragmentSearchBinding.viewPager.adapter = adapter;
         fragmentSearchBinding.tabLayout.setupWithViewPager(fragmentSearchBinding.viewPager);
     }
-
 
 }

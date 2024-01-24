@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-parcelize")
 }
 
 android {
@@ -55,6 +54,5 @@ dependencies {
     implementation("io.coil-kt:coil:2.4.0")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation ("com.codepath.libraries:asynchttpclient:2.2.0")
-    implementation ("com.google.android.gms:play-services-location:20.0.0")
 
 }
