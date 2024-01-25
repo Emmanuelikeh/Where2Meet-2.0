@@ -8,6 +8,7 @@ class ParseApplication : Application(){
         super.onCreate()
 
         ParseObject.registerSubclass(Followers::class.java)
+        ParseObject.registerSubclass(Invite::class.java)
         Parse.initialize(
             Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.back4app_app_id))

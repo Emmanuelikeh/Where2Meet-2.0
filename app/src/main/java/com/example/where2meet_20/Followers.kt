@@ -26,6 +26,11 @@ class Followers: ParseObject() {
         }
     }
 
+    //get following
+    fun getUser(): ParseUser? {
+        return getParseUser(KEY_FOLLOWING)
+    }
+
     // get follower count for a user
     fun getFollowerCount(user: ParseUser?, tvFollowerCount: TextView) {
         var query = ParseQuery.getQuery(Followers::class.java)
