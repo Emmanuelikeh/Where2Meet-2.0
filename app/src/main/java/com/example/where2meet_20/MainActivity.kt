@@ -1,10 +1,10 @@
 package com.example.where2meet_20
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -14,6 +14,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_BALANCED_POWER_ACCURACY
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.parse.ParseUser
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,23 +28,25 @@ class MainActivity : AppCompatActivity() {
         activityMainActivity = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainActivity.root)
 
-        fragmentManger.beginTransaction().replace(R.id.flContainer,HomeFragment()).commit()
-        activityMainActivity.bottomNavigation.setOnItemReselectedListener {  item ->
+        fragmentManger.beginTransaction().replace(R.id.flContainer, HomeFragment()).commit()
+        activityMainActivity.bottomNavigation.setOnItemReselectedListener { item ->
             var fragmentToShow: Fragment? = null
-            when(item.itemId){
+            when (item.itemId) {
                 R.id.action_home -> {
                     fragmentToShow = HomeFragment()
                 }
+
                 R.id.action_profile -> {
                     fragmentToShow = ProfileFragment()
                 }
+
                 R.id.action_search -> {
                     fragmentToShow = SearchFragment()
 
                 }
             }
             if (fragmentToShow != null) {
-                fragmentManger.beginTransaction().replace(R.id.flContainer,fragmentToShow).commit()
+                fragmentManger.beginTransaction().replace(R.id.flContainer, fragmentToShow).commit()
             }
             true
         }
@@ -51,6 +54,34 @@ class MainActivity : AppCompatActivity() {
         getLocation()
 
 
+        activityMainActivity.topAppBar.setNavigationOnClickListener {
+            activityMainActivity.drawerLayout.open()
+        }
+
+        activityMainActivity.navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.logout -> {
+                    Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
+                    onLogout()
+                }
+                R.id.invitations -> {
+                    Toast.makeText(this, "invitations", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+            menuItem.isChecked = true
+            activityMainActivity.drawerLayout.close()
+            true
+
+        }
+
+    }
+
+    private fun onLogout() {
+        ParseUser.logOut();
+        val i = Intent(this, LoginActivity::class.java)
+        startActivity(i)
+        finish()
     }
 
     private fun getLocation() {
