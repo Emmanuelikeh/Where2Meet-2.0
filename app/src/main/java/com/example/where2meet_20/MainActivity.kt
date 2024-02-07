@@ -66,6 +66,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.invitations -> {
                     Toast.makeText(this, "invitations", Toast.LENGTH_SHORT).show()
+                    val i = Intent(this, InvitationsActivity::class.java)
+                    startActivity(i)
                 }
 
             }
