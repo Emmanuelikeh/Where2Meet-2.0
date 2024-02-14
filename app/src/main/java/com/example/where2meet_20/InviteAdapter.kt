@@ -9,15 +9,25 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.where2meet_20.databinding.ActivityInvitationsBinding
 import com.example.where2meet_20.databinding.InvitationItemBinding
+import com.example.where2meet_20.databinding.ItemSentInvitationsBinding
 
-class InviteAdapter(private val inviteList: ArrayList<Invite>, private val context: Context) : RecyclerView.Adapter<InviteAdapter.ViewHolder>(){
+class InviteAdapter(private val inviteList: ArrayList<Invite>, private val context: Context, private val screen: ScreenTypes) : RecyclerView.Adapter<InviteAdapter.ViewHolder>(){
+    enum class ScreenTypes{
+        PENDING,SENT
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): InviteAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val inflate = InvitationItemBinding.inflate(inflater, parent, false)
-        return ViewHolder(inflate);
+        return if (screen == ScreenTypes.PENDING) {
+            val inflate = InvitationItemBinding.inflate(inflater, parent, false)
+            PendingInviteViewHolder(inflate)
+        } else{
+            val inflate = ItemSentInvitationsBinding.inflate(inflater, parent, false)
+            SentInviteViewHolder(inflate)
+        }
+
     }
 
     override fun onBindViewHolder(holder: InviteAdapter.ViewHolder, position: Int) {
@@ -29,7 +39,11 @@ class InviteAdapter(private val inviteList: ArrayList<Invite>, private val conte
         return inviteList.size
     }
 
-    inner class ViewHolder(invitationItemBinding: InvitationItemBinding):RecyclerView.ViewHolder(invitationItemBinding.root){
+    abstract inner class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+        abstract fun bind(invite: Invite)
+    }
+
+    inner class PendingInviteViewHolder(invitationItemBinding: InvitationItemBinding): ViewHolder(invitationItemBinding.root){
 
         private val invitationItemBinding: InvitationItemBinding
 
@@ -38,7 +52,7 @@ class InviteAdapter(private val inviteList: ArrayList<Invite>, private val conte
 //            itemView.setOnClickListener(this)
         }
 
-        fun bind(invite: Invite) {
+        override fun bind(invite: Invite) {
             invitationItemBinding.tvPendingInviteTitle.text = invite.title
             invitationItemBinding.tvPendingInviteSendersName.text = invite.sender?.fetchIfNeeded()?.username.toString()
             invitationItemBinding.tvPendingUsersAddress.text = invite.address
@@ -81,6 +95,41 @@ class InviteAdapter(private val inviteList: ArrayList<Invite>, private val conte
                 } else {
                     Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
                 }
+            }
+
+        }
+    }
+
+    inner class SentInviteViewHolder(itemSentInvitationsBinding: ItemSentInvitationsBinding): ViewHolder(itemSentInvitationsBinding.root){
+        private val itemSentInvitationsBinding: ItemSentInvitationsBinding
+
+        init {
+            this.itemSentInvitationsBinding = itemSentInvitationsBinding
+        }
+
+        override fun bind(invite: Invite) {
+            itemSentInvitationsBinding.tvRequestedInviteTitle.text = invite.title
+            DateUtil().setDate("MM/dd/yyyy",itemSentInvitationsBinding.tvRequestedInviteDate,"Date: ",invite.invitationDate)
+            DateUtil().setDate("EEE, MMM d, yyyy 'at' hh:mm a",itemSentInvitationsBinding.tvInviteRequestComposeDate,"Sent at: ",invite.createdAt)
+            itemSentInvitationsBinding.tvRequestedInviteeName.text = invite.receiver?.fetchIfNeeded()?.username.toString()
+            itemSentInvitationsBinding.ivRequestsentUserImage.load(R.drawable.image_app){
+                placeholder(R.drawable.image_app)
+            }
+            getStatus(invite)
+            
+//            itemSentInvitationsBinding.tvSentInviteReceiversName.text = invite.receiver?.fetchIfNeeded()?.username.toString()
+//            itemSentInvitationsBinding.tvSentInviteReceiversAddress.text = invite.address
+//            DateUtil().setDate("MM/dd/yyyy",itemSentInvitationsBinding.tvSentInviteInvitationDate,"Date: ",invite.invitationDate)
+//            itemSentInvitationsBinding.ivSentInviteReceiversProfileImage.load(invite.receiver?.getParseFile("profileImage")?.url){
+//                placeholder(R.drawable.image_app)
+//            }
+        }
+
+        private fun getStatus(invite: Invite) {
+            when(invite.flag){
+                0 -> itemSentInvitationsBinding.tvInviteStatus.text = "Pending"
+                1 -> itemSentInvitationsBinding.tvInviteStatus.text = "Rejected"
+                2 -> itemSentInvitationsBinding.tvInviteStatus.text = "Accepted"
             }
 
         }

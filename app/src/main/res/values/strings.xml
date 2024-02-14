@@ -61,5 +61,6 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="accept">Accept</string>
-    <string name="reject">Reject</string>>
+    <string name="reject">Reject</string>
+    <string name="invitestatus">inviteStatus</string>>
 </resources>

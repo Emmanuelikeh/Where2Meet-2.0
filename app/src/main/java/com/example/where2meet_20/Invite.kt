@@ -42,7 +42,9 @@ class Invite : ParseObject() {
             put(KEY_RECEIVER, receiver!!)
         }
 
+
     companion object {
+        const val KEY_CREATED_AT = "createdAt"
         const val KEY_ADDRESS = "Address"
         const val KEY_SENDER = "Sender"
         const val KEY_RECEIVER = "Receiver"
