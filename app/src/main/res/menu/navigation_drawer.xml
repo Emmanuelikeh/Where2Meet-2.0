@@ -15,6 +15,10 @@
             android:id="@+id/invitations"
             android:icon="@drawable/baseline_celebration_24"
             android:title="Invitations" />
+        <item
+            android:id="@+id/createPosts"
+            android:icon="@drawable/baseline_create_24"
+            android:title="@string/create_posts" />
     </group>
 
 
