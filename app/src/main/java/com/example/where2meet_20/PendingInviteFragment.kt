@@ -37,6 +37,7 @@ class PendingInviteFragment : Fragment() {
         private fun queryInvite() {
         val query = ParseQuery.getQuery(Invite::class.java)
         query.whereEqualTo("Receiver", ParseUser.getCurrentUser())
+            query.whereEqualTo(Invite.KEY_FLAG,0)
         query.findInBackground { objects, e ->
             if (e == null) {
                 inviteList.addAll(objects)
