@@ -18,6 +18,8 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.FileProvider
 import coil.load
 import com.example.where2meet_20.databinding.ActivityCreatePostsBinding
+import com.parse.ParseFile
+import com.parse.ParseUser
 import java.io.File
 import java.io.IOException
 
@@ -45,6 +47,17 @@ class CreatePostsActivity : AppCompatActivity() {
             imagePickerActivityResult?.launch(photoPickerIntent)
         }
 
+        activityCreatePostsBinding.btnSubmitPost.setOnClickListener {
+            val user = ParseUser.getCurrentUser()
+            val description =""
+            if (photoFile != null) {
+                submitPost(description, user, photoFile!!)
+            }
+
+
+        }
+
+
         imagePickerActivityResult = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),
             ActivityResultCallback<ActivityResult> { result ->
@@ -59,6 +72,28 @@ class CreatePostsActivity : AppCompatActivity() {
 
     }
 
+    private fun submitPost(description: String, user: ParseUser?, photoFile: File) {
+        val post = Posts()
+        post.setDescription(description)
+        if (user != null) {
+            post.setUser(user)
+        }
+        post.setImage(ParseFile(photoFile))
+        post.saveInBackground {
+            if (it == null) {
+                Log.i(TAG, "Post was successful!")
+                Toast.makeText(this, "Post was successful!", Toast.LENGTH_SHORT).show()
+                activityCreatePostsBinding.ivCreatedPost.visibility = View.GONE
+                // navigate back to the home page
+                val i = Intent(this, MainActivity::class.java)
+                startActivity(i)
+            } else {
+                Log.e(TAG, "Post was unsuccessful", it)
+                Toast.makeText(this, "Post was unsuccessful", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
 
 
     fun onLaunchCamera() {
