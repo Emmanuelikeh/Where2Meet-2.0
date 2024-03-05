@@ -39,20 +39,21 @@ class CreatePostsActivity : AppCompatActivity() {
 
         activityCreatePostsBinding.btnCreatePost.setOnClickListener {
             onLaunchCamera()
+            activityCreatePostsBinding.ivCreatedPost.visibility = View.VISIBLE
         }
 
         activityCreatePostsBinding.btnSelectFromGallery.setOnClickListener{
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             imagePickerActivityResult?.launch(photoPickerIntent)
+            activityCreatePostsBinding.ivCreatedPost.visibility = View.VISIBLE
         }
 
         activityCreatePostsBinding.btnSubmitPost.setOnClickListener {
             val user = ParseUser.getCurrentUser()
-            val description =""
-            if (photoFile != null) {
-                submitPost(description, user, photoFile!!)
-            }
+            val description = activityCreatePostsBinding.etPostDescription.text.toString()
+
+            submitPost(description, user, photoFile)
 
 
         }
@@ -72,13 +73,15 @@ class CreatePostsActivity : AppCompatActivity() {
 
     }
 
-    private fun submitPost(description: String, user: ParseUser?, photoFile: File) {
+    private fun submitPost(description: String, user: ParseUser?, photoFile: File?) {
         val post = Posts()
         post.setDescription(description)
         if (user != null) {
             post.setUser(user)
         }
-        post.setImage(ParseFile(photoFile))
+        if (photoFile != null) {
+            post.setImage(ParseFile(photoFile))
+        }
         post.saveInBackground {
             if (it == null) {
                 Log.i(TAG, "Post was successful!")
