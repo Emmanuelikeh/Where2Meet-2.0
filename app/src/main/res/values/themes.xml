@@ -12,4 +12,6 @@
     <item name="cornerSize" type="dimen">50%</item>
 
     <style name="Theme.Where2Meet20" parent="Base.Theme.Where2Meet20" />
+
+
 </resources>
