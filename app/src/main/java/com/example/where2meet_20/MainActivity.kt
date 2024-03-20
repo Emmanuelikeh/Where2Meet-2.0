@@ -74,6 +74,11 @@ class MainActivity : AppCompatActivity() {
                     val i = Intent(this, CreatePostsActivity::class.java)
                     startActivity(i)
                 }
+                R.id.Chats -> {
+                    Toast.makeText(this, "chat", Toast.LENGTH_SHORT).show()
+                    val i = Intent(this, ChatActivity::class.java)
+                    startActivity(i)
+                }
 
             }
             menuItem.isChecked = true
