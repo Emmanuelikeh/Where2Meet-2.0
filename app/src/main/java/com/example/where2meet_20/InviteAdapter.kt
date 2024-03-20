@@ -9,23 +9,31 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.where2meet_20.databinding.ActivityInvitationsBinding
 import com.example.where2meet_20.databinding.InvitationItemBinding
+import com.example.where2meet_20.databinding.ItemChatsBinding
 import com.example.where2meet_20.databinding.ItemSentInvitationsBinding
 
 class InviteAdapter(private val inviteList: ArrayList<Invite>, private val context: Context, private val screen: ScreenTypes) : RecyclerView.Adapter<InviteAdapter.ViewHolder>(){
     enum class ScreenTypes{
-        PENDING,SENT
+        PENDING,SENT,ACCEPTED
     }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): InviteAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return if (screen == ScreenTypes.PENDING) {
-            val inflate = InvitationItemBinding.inflate(inflater, parent, false)
-            PendingInviteViewHolder(inflate)
-        } else{
-            val inflate = ItemSentInvitationsBinding.inflate(inflater, parent, false)
-            SentInviteViewHolder(inflate)
+        return when (screen) {
+            ScreenTypes.PENDING -> {
+                val inflate = InvitationItemBinding.inflate(inflater, parent, false)
+                PendingInviteViewHolder(inflate)
+            }
+            ScreenTypes.SENT -> {
+                val inflate = ItemSentInvitationsBinding.inflate(inflater, parent, false)
+                SentInviteViewHolder(inflate)
+            }
+            ScreenTypes.ACCEPTED -> {
+                val inflate = ItemChatsBinding.inflate(inflater, parent, false)
+                AcceptedInviteViewHolder(inflate)
+            }
         }
 
     }
@@ -135,6 +143,17 @@ class InviteAdapter(private val inviteList: ArrayList<Invite>, private val conte
         }
     }
 
+    inner class AcceptedInviteViewHolder(itemChatsBinding: ItemChatsBinding): ViewHolder(itemChatsBinding.root){
+        private val itemChatsBinding: ItemChatsBinding
 
+        init {
+            this.itemChatsBinding = itemChatsBinding
+        }
 
-}
+        override fun bind(invite: Invite) {
+            itemChatsBinding.textChatRoomName.text = invite.title
+            itemChatsBinding.textLastMessage.text = "Hello there"
+            }
+        }
+    }
+
