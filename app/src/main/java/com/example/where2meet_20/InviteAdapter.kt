@@ -143,7 +143,7 @@ class InviteAdapter(private val inviteList: ArrayList<Invite>, private val conte
         }
     }
 
-    inner class AcceptedInviteViewHolder(itemChatsBinding: ItemChatsBinding): ViewHolder(itemChatsBinding.root){
+    inner class AcceptedInviteViewHolder(itemChatsBinding: ItemChatsBinding): ViewHolder(itemChatsBinding.root),View.OnClickListener {
         private val itemChatsBinding: ItemChatsBinding
 
         init {
@@ -154,6 +154,18 @@ class InviteAdapter(private val inviteList: ArrayList<Invite>, private val conte
             itemChatsBinding.textChatRoomName.text = invite.title
             itemChatsBinding.textLastMessage.text = "Hello there"
             }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                //transfer selected place information to the place detail activity to continue due process
+                val invite: Invite = inviteList[position]
+                val i = Intent(context,ChatActivity::class.java)
+                i.putExtra("invite",invite)
+                context.startActivity(i)
+            }
         }
+    }
+
     }
 
