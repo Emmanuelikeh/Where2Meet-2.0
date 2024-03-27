@@ -11,17 +11,16 @@ class Messages : ParseObject() {
         put(KEY_GROUP_ID, invite!!)
     }
 
-    fun setBody(body: String?) {
-        put(KEY_BODY, body!!)
-    }
-
     var messageSender: ParseUser?
         get() = getParseUser(KEY_MESSAGE_SENDER)
         set(sender) {
             put(KEY_MESSAGE_SENDER, sender!!)
         }
-    val messageBody: String?
+    var messageBody: String?
         get() = getString(KEY_BODY)
+        set(body) {
+            put(KEY_BODY, body!!)
+        }
 
     companion object {
         const val KEY_GROUP_ID = "groupId"

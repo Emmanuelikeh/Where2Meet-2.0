@@ -1,13 +1,14 @@
 package com.example.where2meet_20
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.where2meet_20.databinding.ActivityInvitationsBinding
 import com.example.where2meet_20.databinding.InvitationItemBinding
 import com.example.where2meet_20.databinding.ItemChatsBinding
 import com.example.where2meet_20.databinding.ItemSentInvitationsBinding
@@ -148,6 +149,7 @@ class InviteAdapter(private val inviteList: ArrayList<Invite>, private val conte
 
         init {
             this.itemChatsBinding = itemChatsBinding
+            itemView.setOnClickListener(this)
         }
 
         override fun bind(invite: Invite) {
@@ -160,8 +162,9 @@ class InviteAdapter(private val inviteList: ArrayList<Invite>, private val conte
             if (position != RecyclerView.NO_POSITION) {
                 //transfer selected place information to the place detail activity to continue due process
                 val invite: Invite = inviteList[position]
-                val i = Intent(context,ChatActivity::class.java)
-                i.putExtra("invite",invite)
+                val i = Intent(context,MessageActivity::class.java)
+                i.putExtra("inviteInfo",invite)
+                Log.i("InviteAdapter", "onClick: $invite")
                 context.startActivity(i)
             }
         }
